@@ -6,12 +6,30 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
 
+    var locationManager: CLLocationManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+    
+        //MARK: - Checking location enable or not
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled(){
+                self.locationManager.startUpdatingLocation()
+                print("Enabled")
+            }else{
+                print("Disabled")
+            }
+        }
+    
     }
 
 
